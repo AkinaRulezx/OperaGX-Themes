@@ -1,3 +1,5 @@
+# Ignore package manager configuration and lockfiles
+package.json
 package-lock.json
 node_modules/
 dist/
