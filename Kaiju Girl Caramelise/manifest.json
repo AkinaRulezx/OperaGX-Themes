@@ -1,57 +1,53 @@
 {
-    "manifest_version": 3,
-    "name": "Kaiju Girl Caramelise",
-    "version": "1.0",
-    "description": "An animated Opera GX theme inspired by Kaiju Girl Caramelise.",
-    "developer": {
-        "name": "q_wo2"
-    },
-    "icons": {
-        "512": "icon_512.png"
-    },
-    "mod": {
-        "schema_version": 1,
-        "payload": {
-            "theme": {
-                "dark": {
-                    "gx_accent": "#FF007F",
-                    "gx_secondary_base": "#3B1A5C",
-                    "gx_primary_base": "#220D3D",
-                    "gx_accent_active": "#FF3399",
-                    "gx_accent_light": "#FF66B2"
-                },
-                "light": {
-                    "gx_accent": "#FF007F",
-                    "gx_secondary_base": "#F2E6FF",
-                    "gx_primary_base": "#FFFFFF",
-                    "gx_accent_active": "#D6006B",
-                    "gx_accent_light": "#FF4D94"
-                }
-            },
-            "wallpaper": {
-                "dark": {
-                    "image": "wallpaper.webm",
-                    "first_frame": "first_frame.jpg",
-                    "text_color": "#FFFFFF",
-                    "text_shadow": "#220D3D"
-                },
-                "light": {
-                    "image": "wallpaper.webm",
-                    "first_frame": "first_frame.jpg",
-                    "text_color": "#3B1A5C",
-                    "text_shadow": "#FFFFFF"
-                }
-            },
-            "page_styles": [
-                {
-                    "matches": [
-                        "*://*/*"
-                    ],
-                    "css": [
-                        "webmodding/opera.css"
-                    ]
-                }
-            ]
+  "manifest_version": 3,
+  "name": "Kaiju Girl Caramelise",
+  "version": "1.0",
+  "description": "An animated Opera GX theme inspired by Kaiju Girl Caramelise.",
+  "developer": {
+    "name": "q_wo2"
+  },
+  "icons": {
+    "512": "icon_512.png"
+  },
+  "mod": {
+    "schema_version": 1,
+    "payload": {
+      "theme": {
+        "dark": {
+          "gx_accent": "#FF007F",
+          "gx_secondary_base": "#3B1A5C",
+          "gx_primary_base": "#220D3D",
+          "gx_accent_active": "#FF3399",
+          "gx_accent_light": "#FF66B2"
+        },
+        "light": {
+          "gx_accent": "#FF007F",
+          "gx_secondary_base": "#F2E6FF",
+          "gx_primary_base": "#FFFFFF",
+          "gx_accent_active": "#D6006B",
+          "gx_accent_light": "#FF4D94"
         }
+      },
+      "wallpaper": {
+        "dark": {
+          "image": "wallpaper.webm",
+          "first_frame": "first_frame.jpg",
+          "text_color": "#FFFFFF",
+          "text_shadow": "#220D3D"
+        },
+        "light": {
+          "image": "wallpaper.webm",
+          "first_frame": "first_frame.jpg",
+          "text_color": "#3B1A5C",
+          "text_shadow": "#FFFFFF"
+        }
+      },
+      "page_styles": [
+        {
+          "matches": ["*://*/*"],
+          "css": ["webmodding/opera.css"]
+        }
+      ]
     }
+  }
 }
