@@ -1,0 +1,19 @@
+{
+  "name": "operagx-themes",
+  "version": "1.0.0",
+  "bin": {
+    "pmd": "./bin/validate.js"
+  },
+  "scripts": {
+    "lint": "npx pmd lint",
+    "validate": "node bin/validate.js"
+  },
+  "dependencies": {
+    "lint": "^1.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "adm-zip": "^0.5.10"
+  }
+}

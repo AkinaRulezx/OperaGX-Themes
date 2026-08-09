@@ -1,1 +1,4 @@
 guide/
+node_modules/
+package-lock.json
+*.zip
