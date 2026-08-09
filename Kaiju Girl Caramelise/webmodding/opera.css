@@ -1,0 +1,26 @@
+/* Inject theme colors for text selection highlights globally */
+::selection {
+    background-color: env(-opera-gx-accent-color) !important;
+    color: env(-opera-gx-background-color) !important;
+}
+
+/* Custom Scrollbar styled dynamically with your theme colors */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: env(-opera-gx-background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: env(-opera-gx-accent-color);
+    border-radius: 5px;
+    border: 2px solid env(-opera-gx-background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: env(-opera-gx-accent-color);
+    filter: brightness(1.2);
+}
