@@ -6,7 +6,7 @@
   },
   "scripts": {
     "lint": "npx pmd lint",
-    "validate": "node bin/validate.js"
+    "validate": "node bin/validate.js validate"
   },
   "dependencies": {
     "lint": "^1.2.2"
