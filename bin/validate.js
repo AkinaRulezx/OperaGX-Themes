@@ -167,6 +167,29 @@ function validateTheme(themeDir) {
   }
 }
 
+function packageTheme(themeDir, rootDir) {
+  try {
+    const AdmZip = require("adm-zip");
+    const folderName = path.basename(themeDir);
+    const zipPath = path.join(themeDir, `${folderName}.zip`);
+
+    const zip = new AdmZip();
+    zip.addLocalFolder(themeDir);
+
+    const buffer = zip.toBuffer();
+    fs.writeFileSync(zipPath, buffer);
+    console.log(
+      `\x1b[32m✔ "${folderName}" built successfully. (${path.relative(rootDir, zipPath)})\x1b[0m`,
+    );
+    return true;
+  } catch (err) {
+    console.error(
+      `\x1b[31m✘ Build packaging failed for "${path.basename(themeDir)}": ${err.message}\x1b[0m`,
+    );
+    return false;
+  }
+}
+
 function main() {
   const rootDir = process.cwd();
   let themeDirs = [];
@@ -175,18 +198,32 @@ function main() {
 
   if (args[0] === "lint") {
     const isFix = args.includes("--fix");
-    const globPattern = "**/*.{json,css,txt,md,js}";
+    const targetPath = args.filter(
+      (arg) => arg !== "lint" && arg !== "--fix",
+    )[0];
+
+    const prettierTarget = targetPath
+      ? `"${targetPath}"`
+      : `"**/*.{json,css,txt,md,js}"`;
+    const eslintTarget = targetPath ? `"${targetPath}"` : ".";
+
     const { execSync } = require("child_process");
     try {
       if (isFix) {
-        console.log("Formatting and fixing code style...");
-        execSync(`npx prettier --write "${globPattern}"`, { stdio: "inherit" });
-        execSync(`npx eslint . --fix`, { stdio: "inherit" });
+        console.log(
+          `Formatting and fixing code style for ${targetPath || "all files"}...`,
+        );
+        execSync(`npx prettier --write ${prettierTarget}`, {
+          stdio: "inherit",
+        });
+        execSync(`npx eslint ${eslintTarget} --fix`, { stdio: "inherit" });
       } else {
-        console.log("Checking formatting and code style...");
+        console.log(
+          `Checking formatting and code style for ${targetPath || "all files"}...`,
+        );
         try {
           const prettierOut = execSync(
-            `npx prettier --check "${globPattern}"`,
+            `npx prettier --check ${prettierTarget}`,
             { stdio: ["ignore", "pipe", "pipe"], encoding: "utf8" },
           );
           console.log(prettierOut);
@@ -209,7 +246,7 @@ function main() {
           }
           throw err;
         }
-        execSync(`npx eslint .`, { stdio: "inherit" });
+        execSync(`npx eslint ${eslintTarget}`, { stdio: "inherit" });
       }
       process.exit(0);
     } catch {
@@ -219,21 +256,32 @@ function main() {
 
   let targetFolder = null;
   let isBuildCmd = false;
-  let isValidateOnly = args.includes("--validate");
+  let isValidateCmd = false;
+  const hasValidateFlag =
+    args.includes("validate") || args.includes("--validate");
+
+  if (args.includes("build")) {
+    isBuildCmd = true;
+  } else if (hasValidateFlag) {
+    isValidateCmd = true;
+  } else {
+    isValidateCmd = true;
+  }
 
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === "build") {
-      isBuildCmd = true;
-      if (args[i + 1] && !args[i + 1].startsWith("-")) {
-        targetFolder = args[i + 1];
-        i++;
-      }
-    } else if (args[i] === "--validate") {
-      isValidateOnly = true;
-    } else if (!args[i].startsWith("-")) {
-      if (!targetFolder) {
-        targetFolder = args[i];
-      }
+    const arg = args[i];
+    if (
+      arg === "build" ||
+      arg === "validate" ||
+      arg === "--validate" ||
+      arg === "lint" ||
+      arg === "--fix"
+    ) {
+      continue;
+    }
+    if (!arg.startsWith("-")) {
+      targetFolder = arg;
+      break;
     }
   }
 
@@ -258,29 +306,29 @@ function main() {
 
   let allValid = true;
   for (const themeDir of themeDirs) {
-    if (isValidateOnly) {
+    if (isBuildCmd && hasValidateFlag) {
       const isValid = validateTheme(themeDir);
-      if (!isValid) {
+      if (isValid) {
+        const buildSuccess = packageTheme(themeDir, rootDir);
+        if (!buildSuccess) {
+          allValid = false;
+        }
+      } else {
         allValid = false;
       }
     } else if (isBuildCmd) {
-      try {
-        const AdmZip = require("adm-zip");
-        const folderName = path.basename(themeDir);
-        const zipPath = path.join(themeDir, `${folderName}.zip`);
-
-        const zip = new AdmZip();
-        zip.addLocalFolder(themeDir);
-
-        const buffer = zip.toBuffer();
-        fs.writeFileSync(zipPath, buffer);
-        console.log(
-          `\x1b[32m✔ "${folderName}" built successfully. (${path.relative(rootDir, zipPath)})\x1b[0m`,
-        );
-      } catch (err) {
-        console.error(
-          `\x1b[31m✘ Build packaging failed for "${path.basename(themeDir)}": ${err.message}\x1b[0m`,
-        );
+      const buildSuccess = packageTheme(themeDir, rootDir);
+      if (!buildSuccess) {
+        allValid = false;
+      }
+    } else if (isValidateCmd) {
+      const isValid = validateTheme(themeDir);
+      if (isValid) {
+        const buildSuccess = packageTheme(themeDir, rootDir);
+        if (!buildSuccess) {
+          allValid = false;
+        }
+      } else {
         allValid = false;
       }
     }
