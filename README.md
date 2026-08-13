@@ -39,16 +39,16 @@ We use a unified CLI binary to validate, build, and lint theme files:
   ```
 
 - **Linting files or folders**:
-  Run ESLint directly using `npx eslint` for a specific file or folder (e.g., using quotes for folders with spaces):
+  Run ESLint directly using `npx eslint` for a specific file or folder (wrapping the entire path in quotes if it contains spaces):
 
   ```bash
-  npx eslint "Kaiju Girl Caramelise"/manifest.json
+  npx eslint "Kaiju Girl Caramelise/manifest.json"
   ```
 
   Use `--fix` to auto-fix styling issues:
 
   ```bash
-  npx eslint "Kaiju Girl Caramelise"/manifest.json --fix
+  npx eslint "Kaiju Girl Caramelise/manifest.json" --fix
   ```
 
 - **Linting the entire workspace**:
