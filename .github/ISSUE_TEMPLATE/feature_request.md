@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea or new feature for this theme
-title: '[FEATURE] '
+title: "[FEATURE] "
 labels: enhancement
 assignees: AkinaRulezx
 ---
