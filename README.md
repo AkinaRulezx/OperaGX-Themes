@@ -28,7 +28,7 @@ We use a unified CLI binary to validate, build, and lint theme files:
   Checks the syntax of `manifest.json` and verifies that all referenced assets exist. If validation passes, it automatically packages the theme into a `.zip` file:
 
   ```bash
-  npx pmd validate "Kaiju Girl Caramelise"
+  npx pmd build "Kaiju Girl Caramelise" --validate
   ```
 
 - **Build/Package a theme**:
@@ -38,16 +38,28 @@ We use a unified CLI binary to validate, build, and lint theme files:
   npx pmd build "Kaiju Girl Caramelise"
   ```
 
-- **Check code style & formatting**:
-  Runs Prettier checks and ESLint rules:
+- **Linting files or folders**:
+  Run ESLint directly using `npx eslint` for a specific file or folder (e.g., using quotes for folders with spaces):
 
   ```bash
-  npx pmd lint
+  npx eslint "Kaiju Girl Caramelise"/manifest.json
   ```
 
-- **Auto-fix code style & formatting**:
-  Automatically fixes code formatting and linting errors:
+  Use `--fix` to auto-fix styling issues:
 
   ```bash
-  npx pmd lint --fix
+  npx eslint "Kaiju Girl Caramelise"/manifest.json --fix
+  ```
+
+- **Linting the entire workspace**:
+  To lint all JavaScript, CSS, and JSON files across the entire workspace at once:
+
+  ```bash
+  npx eslint .
+  ```
+
+  And to auto-fix the entire workspace:
+
+  ```bash
+  npx eslint . --fix
   ```

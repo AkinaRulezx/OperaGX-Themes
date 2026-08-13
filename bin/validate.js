@@ -196,64 +196,6 @@ function main() {
 
   const args = process.argv.slice(2);
 
-  if (args[0] === "lint") {
-    const isFix = args.includes("--fix");
-    const targetPath = args.filter(
-      (arg) => arg !== "lint" && arg !== "--fix",
-    )[0];
-
-    const prettierTarget = targetPath
-      ? `"${targetPath}"`
-      : `"**/*.{json,css,txt,md,js}"`;
-    const eslintTarget = targetPath ? `"${targetPath}"` : ".";
-
-    const { execSync } = require("child_process");
-    try {
-      if (isFix) {
-        console.log(
-          `Formatting and fixing code style for ${targetPath || "all files"}...`,
-        );
-        execSync(`npx prettier --write ${prettierTarget}`, {
-          stdio: "inherit",
-        });
-        execSync(`npx eslint ${eslintTarget} --fix`, { stdio: "inherit" });
-      } else {
-        console.log(
-          `Checking formatting and code style for ${targetPath || "all files"}...`,
-        );
-        try {
-          const prettierOut = execSync(
-            `npx prettier --check ${prettierTarget}`,
-            { stdio: ["ignore", "pipe", "pipe"], encoding: "utf8" },
-          );
-          console.log(prettierOut);
-        } catch (err) {
-          const cleanStdout = err.stdout ? err.stdout.toString() : "";
-          const cleanStderr = err.stderr ? err.stderr.toString() : "";
-          const modifiedStdout = cleanStdout.replace(
-            "Run Prettier with --write to fix.",
-            "Run npx pmd lint --fix to fix.",
-          );
-          const modifiedStderr = cleanStderr.replace(
-            "Run Prettier with --write to fix.",
-            "Run npx pmd lint --fix to fix.",
-          );
-          if (modifiedStdout) {
-            console.log(modifiedStdout);
-          }
-          if (modifiedStderr) {
-            console.error(modifiedStderr);
-          }
-          throw err;
-        }
-        execSync(`npx eslint ${eslintTarget}`, { stdio: "inherit" });
-      }
-      process.exit(0);
-    } catch {
-      process.exit(1);
-    }
-  }
-
   let targetFolder = null;
   let isBuildCmd = false;
   let isValidateCmd = false;
@@ -273,9 +215,7 @@ function main() {
     if (
       arg === "build" ||
       arg === "validate" ||
-      arg === "--validate" ||
-      arg === "lint" ||
-      arg === "--fix"
+      arg === "--validate"
     ) {
       continue;
     }

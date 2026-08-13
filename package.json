@@ -5,15 +5,13 @@
     "pmd": "./bin/validate.js"
   },
   "scripts": {
-    "lint": "npx pmd lint",
     "validate": "node bin/validate.js validate"
   },
-  "dependencies": {
-    "lint": "^1.2.2"
-  },
   "devDependencies": {
+    "@eslint/css": "^1.4.0",
+    "@eslint/json": "^2.0.1",
+    "adm-zip": "^0.6.0",
     "eslint": "^10.8.0",
-    "prettier": "^3.0.0",
-    "adm-zip": "^0.6.0"
+    "prettier": "^3.0.0"
   }
 }
