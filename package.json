@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@eslint/css": "^1.4.0",
-    "@eslint/json": "^2.0.1",
+    "@eslint/json": "^2.1.0",
     "adm-zip": "^0.6.0",
     "eslint": "^10.9.1",
     "prettier": "^3.0.0"
